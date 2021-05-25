@@ -24,48 +24,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.Users = void 0;
+exports.People = void 0;
 var typeorm_1 = require("typeorm");
-var Fav_planet_1 = require("./Fav_planet");
 var Fav_people_1 = require("./Fav_people");
-var Users = /** @class */ (function (_super) {
-    __extends(Users, _super);
-    function Users() {
+var People = /** @class */ (function (_super) {
+    __extends(People, _super);
+    function People() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Users.prototype, "id");
+    ], People.prototype, "id");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "first_name");
+    ], People.prototype, "Name");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "last_name");
-    __decorate([
-        typeorm_1.Column({ unique: true }),
-        __metadata("design:type", String)
-    ], Users.prototype, "email");
+    ], People.prototype, "BirthYear");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "password");
+    ], People.prototype, "Gender");
     __decorate([
-        typeorm_1.OneToOne(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.users; }) // specify inverse side as a second parameter
-        ,
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], People.prototype, "Height");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "SkinColor");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "EyeColor");
+    __decorate([
+        typeorm_1.ManyToOne(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.people; }),
         __metadata("design:type", Fav_people_1.Fav_people)
-    ], Users.prototype, "fav_people");
-    __decorate([
-        typeorm_1.OneToOne(function () { return Fav_planet_1.Fav_planet; }, function (fav_planet) { return fav_planet.users; }) // specify inverse side as a second parameter
-        ,
-        __metadata("design:type", Fav_planet_1.Fav_planet)
-    ], Users.prototype, "fav_planet");
-    Users = __decorate([
+    ], People.prototype, "fav_people");
+    People = __decorate([
         typeorm_1.Entity()
-    ], Users);
-    return Users;
+    ], People);
+    return People;
 }(typeorm_1.BaseEntity));
-exports.Users = Users;
+exports.People = People;

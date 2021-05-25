@@ -25,3 +25,8 @@ export const getUsers = async (req: Request, res: Response): Promise<Response> =
 		const users = await getRepository(Users).find();
 		return res.json(users);
 }
+
+export const getUser = async (req: Request, res: Response): Promise<Response> =>{
+        const users = await getRepository(Users).findOne(req.params.id);
+        return res.json(users);
+}

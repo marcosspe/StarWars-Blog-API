@@ -24,48 +24,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.Users = void 0;
+exports.Fav_planets = void 0;
 var typeorm_1 = require("typeorm");
-var Fav_planet_1 = require("./Fav_planet");
-var Fav_people_1 = require("./Fav_people");
-var Users = /** @class */ (function (_super) {
-    __extends(Users, _super);
-    function Users() {
+var Users_1 = require("./Users");
+var Fav_planets = /** @class */ (function (_super) {
+    __extends(Fav_planets, _super);
+    function Fav_planets() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Users.prototype, "id");
+    ], Fav_planets.prototype, "id");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "first_name");
+    ], Fav_planets.prototype, "label");
     __decorate([
         typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], Users.prototype, "last_name");
+        __metadata("design:type", Boolean)
+    ], Fav_planets.prototype, "done");
     __decorate([
-        typeorm_1.Column({ unique: true }),
-        __metadata("design:type", String)
-    ], Users.prototype, "email");
-    __decorate([
-        typeorm_1.Column(),
-        __metadata("design:type", String)
-    ], Users.prototype, "password");
-    __decorate([
-        typeorm_1.OneToOne(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.users; }) // specify inverse side as a second parameter
-        ,
-        __metadata("design:type", Fav_people_1.Fav_people)
-    ], Users.prototype, "fav_people");
-    __decorate([
-        typeorm_1.OneToOne(function () { return Fav_planet_1.Fav_planet; }, function (fav_planet) { return fav_planet.users; }) // specify inverse side as a second parameter
-        ,
-        __metadata("design:type", Fav_planet_1.Fav_planet)
-    ], Users.prototype, "fav_planet");
-    Users = __decorate([
+        typeorm_1.ManyToOne(function () { return Users_1.Users; }, function (users) { return users.fav_planets; }),
+        __metadata("design:type", Users_1.Users)
+    ], Fav_planets.prototype, "users");
+    Fav_planets = __decorate([
         typeorm_1.Entity()
-    ], Users);
-    return Users;
+    ], Fav_planets);
+    return Fav_planets;
 }(typeorm_1.BaseEntity));
-exports.Users = Users;
+exports.Fav_planets = Fav_planets;
