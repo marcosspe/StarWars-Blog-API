@@ -36,9 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUser = exports.getUsers = exports.createUser = void 0;
+exports.getPlanet = exports.getPlanets = exports.getCharacter = exports.getPeople = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
+var People_1 = require("./entities/People");
+var Planets_1 = require("./entities/Planets");
 var utils_1 = require("./utils");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
@@ -81,15 +83,51 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getUsers = getUsers;
-var getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
+var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var people;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).findOne(req.params.id)];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).find()];
             case 1:
-                users = _a.sent();
-                return [2 /*return*/, res.json(users)];
+                people = _a.sent();
+                return [2 /*return*/, res.json(people)];
         }
     });
 }); };
-exports.getUser = getUser;
+exports.getPeople = getPeople;
+var getCharacter = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var people;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).findOne(req.params.id)];
+            case 1:
+                people = _a.sent();
+                return [2 /*return*/, res.json(people)];
+        }
+    });
+}); };
+exports.getCharacter = getCharacter;
+var getPlanets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planets;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).find()];
+            case 1:
+                planets = _a.sent();
+                return [2 /*return*/, res.json(planets)];
+        }
+    });
+}); };
+exports.getPlanets = getPlanets;
+var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planets;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.id)];
+            case 1:
+                planets = _a.sent();
+                return [2 /*return*/, res.json(planets)];
+        }
+    });
+}); };
+exports.getPlanet = getPlanet;

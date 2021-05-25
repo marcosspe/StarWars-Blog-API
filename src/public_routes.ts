@@ -15,6 +15,9 @@ const router = Router();
 
 // signup route, creates a new user in the DB
 router.post('/user', safe(createUser));
-router.get('/user/:id', safe(actions.getUser));
+router.get('/people', safe(actions.getPeople));
+router.get('/people/:id', safe(actions.getCharacter));
+router.get('/planets', safe(actions.getPlanets));
+router.get('/planets/:id', safe(actions.getPlanet));
 
 export default router;
