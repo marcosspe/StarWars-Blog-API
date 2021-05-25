@@ -37,4 +37,6 @@ router.get('/people', utils_1.safe(actions.getPeople));
 router.get('/people/:id', utils_1.safe(actions.getCharacter));
 router.get('/planets', utils_1.safe(actions.getPlanets));
 router.get('/planets/:id', utils_1.safe(actions.getPlanet));
+router.post('/people', utils_1.safe(actions.createCharacter));
+router.post('/planets', utils_1.safe(actions.createPlanet));
 exports["default"] = router;

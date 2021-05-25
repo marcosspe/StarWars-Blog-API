@@ -35,13 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-exports.getPlanet = exports.getPlanets = exports.getCharacter = exports.getPeople = exports.getUsers = exports.createUser = void 0;
+exports.login = exports.createPlanet = exports.createCharacter = exports.getPlanet = exports.getPlanets = exports.getCharacter = exports.getPeople = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var People_1 = require("./entities/People");
 var Planets_1 = require("./entities/Planets");
 var utils_1 = require("./utils");
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
     return __generator(this, function (_a) {
@@ -131,3 +135,87 @@ var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getPlanet = getPlanet;
+var createCharacter = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var Character, newCharacter, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                if (!req.body.Name)
+                    throw new utils_1.Exception("Please provide Name");
+                if (!req.body.BirthYear)
+                    throw new utils_1.Exception("Please provide BirthYear");
+                if (!req.body.Gender)
+                    throw new utils_1.Exception("Please provide Gender");
+                if (!req.body.Height)
+                    throw new utils_1.Exception("Please provide Height");
+                if (!req.body.SkinColor)
+                    throw new utils_1.Exception("Please provide SkinColor");
+                if (!req.body.EyeColor)
+                    throw new utils_1.Exception("Please provide EyeColor");
+                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).findOne({ where: { Name: req.body.Name } })];
+            case 1:
+                Character = _a.sent();
+                if (Character)
+                    throw new utils_1.Exception("Este personaje ya existe");
+                newCharacter = typeorm_1.getRepository(People_1.People).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newCharacter)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.createCharacter = createCharacter;
+var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planet, newPlanet, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                if (!req.body.Name)
+                    throw new utils_1.Exception("Please provide Name");
+                if (!req.body.Climate)
+                    throw new utils_1.Exception("Please provide Climate");
+                if (!req.body.Population)
+                    throw new utils_1.Exception("Please provide Population");
+                if (!req.body.OrbitalPeriod)
+                    throw new utils_1.Exception("Please provide OrbitalPeriod");
+                if (!req.body.RotationPeriod)
+                    throw new utils_1.Exception("Please provide RotationPeriod");
+                if (!req.body.Diameter)
+                    throw new utils_1.Exception("Please provide Diameter");
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne({ where: { Name: req.body.Name } })];
+            case 1:
+                planet = _a.sent();
+                if (planet)
+                    throw new utils_1.Exception("Este planeta ya existe");
+                newPlanet = typeorm_1.getRepository(Planets_1.Planets).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).save(newPlanet)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.createPlanet = createPlanet;
+var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, token;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!req.body.email)
+                    throw new utils_1.Exception("Verifique el email", 400);
+                if (!req.body.password)
+                    throw new utils_1.Exception("Verifique el password", 400);
+                return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).findOne({ where: { email: req.body.email, password: req.body.password } })];
+            case 1:
+                user = _a.sent();
+                if (!user)
+                    throw new utils_1.Exception("Email o password incorrecto", 401);
+                token = jsonwebtoken_1["default"].sign({ user: user }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
+                return [2 /*return*/, res.json({ user: user, token: token })];
+        }
+    });
+}); };
+exports.login = login;
