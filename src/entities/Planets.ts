@@ -25,5 +25,5 @@ export class Planets extends BaseEntity{
     Diameter: number
 
     @OneToMany(() => Fav_planet, fav_planet => fav_planet.planets)
-    fav_planet: Fav_planet[];
+    fav_planet: Fav_planet;
 }

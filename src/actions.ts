@@ -112,9 +112,9 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 export const getFavoritos = async (req: Request, res: Response): Promise<Response> =>{
     const userID = (req.user as ObjectLiteral).user.id; 
     const favPlanet = await getRepository(Fav_planet).find({where:{users: userID}, 
-        relations: ['Planets']});
+        relations: ['planets']});
     const favPeople = await getRepository(Fav_people).find({where:{users: userID}, 
-        relations: ['People']});
+        relations: ['people']});
     return res.json({
         favPeople,
         favPlanet,
@@ -152,10 +152,10 @@ export const deleteFavPlanet = async (req: Request, res: Response): Promise<Resp
     const userID = (req.user as ObjectLiteral).user;
     const favPlanet = await getRepository(Fav_planet).findOne(
          {
-            relations: ['Planets'],
+            relations: ['planets'],
             where:{
                 users: userID,
-                postplanets: req.params.id 
+                planets: req.params.id 
             }
          });
         if(!favPlanet){
@@ -170,10 +170,10 @@ export const deleteFavPeople = async (req: Request, res: Response): Promise<Resp
     const userID = (req.user as ObjectLiteral).user;
     const favCharacter = await getRepository(Fav_people).findOne(
          {
-            relations: ['People'],
+            relations: ['people'],
             where:{
                 users: userID,
-                postpersons: req.params.id 
+                people: req.params.id 
             }
          });
         if(!favCharacter){

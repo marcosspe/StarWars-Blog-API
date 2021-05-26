@@ -53,7 +53,7 @@ var verifyToken = function (req, res, next) {
         return res.status(400).json('ACCESS DENIED');
     }
 };
-router.get('/user', utils_1.safe(actions.getUsers));
+//router.get('/user', safe(actions.getUsers));
 router.get('/user', verifyToken, utils_1.safe(actions.getUser));
 router.get('/user/favoritos', verifyToken, utils_1.safe(actions.getFavoritos));
 router.post('/user/favoritos/planets/:id', verifyToken, utils_1.safe(actions.addFavPlanet));

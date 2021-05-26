@@ -246,11 +246,11 @@ var getFavoritos = function (req, res) { return __awaiter(void 0, void 0, void 0
             case 0:
                 userID = req.user.user.id;
                 return [4 /*yield*/, typeorm_1.getRepository(Fav_planet_1.Fav_planet).find({ where: { users: userID },
-                        relations: ['Planets'] })];
+                        relations: ['planets'] })];
             case 1:
                 favPlanet = _a.sent();
                 return [4 /*yield*/, typeorm_1.getRepository(Fav_people_1.Fav_people).find({ where: { users: userID },
-                        relations: ['People'] })];
+                        relations: ['people'] })];
             case 2:
                 favPeople = _a.sent();
                 return [2 /*return*/, res.json({
@@ -312,10 +312,10 @@ var deleteFavPlanet = function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 userID = req.user.user;
                 return [4 /*yield*/, typeorm_1.getRepository(Fav_planet_1.Fav_planet).findOne({
-                        relations: ['Planets'],
+                        relations: ['planets'],
                         where: {
                             users: userID,
-                            postplanets: req.params.id
+                            planets: req.params.id
                         }
                     })];
             case 1:
@@ -337,10 +337,10 @@ var deleteFavPeople = function (req, res) { return __awaiter(void 0, void 0, voi
             case 0:
                 userID = req.user.user;
                 return [4 /*yield*/, typeorm_1.getRepository(Fav_people_1.Fav_people).findOne({
-                        relations: ['People'],
+                        relations: ['people'],
                         where: {
                             users: userID,
-                            postpersons: req.params.id
+                            people: req.params.id
                         }
                     })];
             case 1:

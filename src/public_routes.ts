@@ -14,6 +14,7 @@ import * as actions from './actions';
 const router = Router();
 
 // signup route, creates a new user in the DB
+router.get('/user', safe(actions.getUsers));
 router.post('/user', safe(createUser));
 router.get('/people', safe(actions.getPeople));
 router.get('/people/:id', safe(actions.getCharacter));

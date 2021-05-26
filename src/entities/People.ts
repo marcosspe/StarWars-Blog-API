@@ -26,6 +26,6 @@ export class People extends BaseEntity{
 
     
   @OneToMany(() => Fav_people, fav_people => fav_people.people)
-    fav_people: Fav_people[];
+    fav_people: Fav_people;
 
 }

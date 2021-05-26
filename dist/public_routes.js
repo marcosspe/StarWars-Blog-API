@@ -32,6 +32,7 @@ var actions_1 = require("./actions");
 var actions = __importStar(require("./actions"));
 var router = express_1.Router();
 // signup route, creates a new user in the DB
+router.get('/user', utils_1.safe(actions.getUsers));
 router.post('/user', utils_1.safe(actions_1.createUser));
 router.get('/people', utils_1.safe(actions.getPeople));
 router.get('/people/:id', utils_1.safe(actions.getCharacter));

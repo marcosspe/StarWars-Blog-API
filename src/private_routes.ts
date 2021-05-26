@@ -32,7 +32,7 @@ const verifyToken= (req: Request,res:Response, next:NextFunction) =>{
   
 }
 
-router.get('/user', safe(actions.getUsers));
+//router.get('/user', safe(actions.getUsers));
 router.get('/user',verifyToken, safe(actions.getUser));
 router.get('/user/favoritos',verifyToken, safe(actions.getFavoritos));
 router.post('/user/favoritos/planets/:id',verifyToken, safe(actions.addFavPlanet));
