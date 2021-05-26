@@ -1,10 +1,12 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'  // getRepository"  traer una tabla de la base de datos asociada al objeto
+import { getRepository, ObjectLiteral } from 'typeorm'  // getRepository"  traer una tabla de la base de datos asociada al objeto
 import { Users } from './entities/Users'
 import { People } from './entities/People'
 import { Planets } from './entities/Planets'
 import { Exception } from './utils'
 import jwt from 'jsonwebtoken'
+import { Fav_people } from './entities/Fav_people'
+import { Fav_planet } from './entities/Fav_planet'
 
 export const createUser = async (req: Request, res:Response): Promise<Response> =>{
 
@@ -28,6 +30,15 @@ export const getUsers = async (req: Request, res: Response): Promise<Response> =
 		const users = await getRepository(Users).find();
 		return res.json(users);
 }
+
+export const getUser = async (req: Request, res: Response): Promise<Response> =>{
+    const userID = (req.user as ObjectLiteral).user.id; 
+   
+    console.log(req.user)
+    const user = await getRepository(Users).findOne(userID);
+    return res.json(user);
+}
+
 
 export const getPeople = async (req: Request, res: Response): Promise<Response> =>{
 		const people = await getRepository(People).find();
@@ -97,3 +108,78 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     const token = jwt.sign({ user }, process.env.JWT_KEY as string, { expiresIn: 60 * 60 });
     return res.json({ user, token });
 }
+
+export const getFavoritos = async (req: Request, res: Response): Promise<Response> =>{
+    const userID = (req.user as ObjectLiteral).user.id; 
+    const favPlanet = await getRepository(Fav_planet).find({where:{users: userID}, 
+        relations: ['Planets']});
+    const favPeople = await getRepository(Fav_people).find({where:{users: userID}, 
+        relations: ['People']});
+    return res.json({
+        favPeople,
+        favPlanet,
+    });
+}
+
+export const addFavPlanet = async (req: Request, res: Response): Promise<Response> =>{
+    const userID = (req.user as ObjectLiteral).user.id; 
+    /* Verificamos si el planeta existe */
+    const planet = await getRepository(Planets).findOne(req.params.id);
+    if(!planet) throw new Exception("El planeta no existe")
+    /* Le asignamos los valores a los FK */
+    let newFavorito = new Fav_planet();
+    newFavorito.users = userID;
+    newFavorito.planets = planet;
+  
+    const results = await getRepository(Fav_planet).save(newFavorito);   //Grabo el fav
+    return res.json(results);
+} 
+
+export const addFavPeople = async (req: Request, res: Response): Promise<Response> =>{
+    /* Verificamos si el personaje existe */
+    const userID = (req.user as ObjectLiteral).user;
+    const character = await getRepository(People).findOne(req.params.id);
+    if(!character) throw new Exception("El planeta que selecciono no existe, cambie su id")
+    /* Le asignamos los valores a los FK */
+    let newFavorito = new Fav_people();
+    newFavorito.users = userID;
+    newFavorito.people = character;
+    const results = await getRepository(Fav_people).save(newFavorito);    //Grabo el fav
+    return res.json(results);
+} 
+
+export const deleteFavPlanet = async (req: Request, res: Response): Promise<Response> =>{
+    const userID = (req.user as ObjectLiteral).user;
+    const favPlanet = await getRepository(Fav_planet).findOne(
+         {
+            relations: ['Planets'],
+            where:{
+                users: userID,
+                postplanets: req.params.id 
+            }
+         });
+        if(!favPlanet){
+            return res.json({"message": "Favorito no existe"})
+        }else{
+            const results = await getRepository(Fav_planet).delete(favPlanet);
+            return res.json(results);
+        }
+} 
+
+export const deleteFavPeople = async (req: Request, res: Response): Promise<Response> =>{
+    const userID = (req.user as ObjectLiteral).user;
+    const favCharacter = await getRepository(Fav_people).findOne(
+         {
+            relations: ['People'],
+            where:{
+                users: userID,
+                postpersons: req.params.id 
+            }
+         });
+        if(!favCharacter){
+            return res.json({"message": "Favorito no existe"})
+        }else{
+            const results = await getRepository(Fav_people).delete(favCharacter);
+            return res.json(results);
+        }
+} 
