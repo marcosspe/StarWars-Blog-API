@@ -38,14 +38,12 @@ var Fav_planet = /** @class */ (function (_super) {
         __metadata("design:type", Number)
     ], Fav_planet.prototype, "id");
     __decorate([
-        typeorm_1.OneToOne(function () { return Users_1.Users; }, function (users) { return users.fav_planet; }) // specify inverse side as a second parameter
-        ,
-        typeorm_1.JoinColumn(),
+        typeorm_1.ManyToOne(function () { return Users_1.Users; }, function (users) { return users.fav_planet; }),
         __metadata("design:type", Users_1.Users)
     ], Fav_planet.prototype, "users");
     __decorate([
-        typeorm_1.OneToMany(function () { return Planets_1.Planets; }, function (planets) { return planets.fav_planet; }),
-        __metadata("design:type", Array)
+        typeorm_1.ManyToOne(function () { return Planets_1.Planets; }, function (planets) { return planets.fav_planet; }),
+        __metadata("design:type", Planets_1.Planets)
     ], Fav_planet.prototype, "planets");
     Fav_planet = __decorate([
         typeorm_1.Entity()

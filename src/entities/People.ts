@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany} from "typeorm"
 import {Fav_people} from "./Fav_people"
 
 @Entity()
@@ -24,6 +24,8 @@ export class People extends BaseEntity{
     @Column()
     EyeColor: string
 
-    @ManyToOne(()=>Fav_people, fav_people => fav_people.people)
-  fav_people: Fav_people;
+    
+  @OneToMany(() => Fav_people, fav_people => fav_people.people)
+    fav_people: Fav_people[];
+
 }

@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany} from "typeorm"
 import {Fav_planet} from "./Fav_planet"
 
 @Entity()
@@ -24,6 +24,6 @@ export class Planets extends BaseEntity{
     @Column()
     Diameter: number
 
-    @ManyToOne(()=>Fav_planet, fav_planet => fav_planet.planets)
-  fav_planet: Fav_planet;
+    @OneToMany(() => Fav_planet, fav_planet => fav_planet.planets)
+    fav_planet: Fav_planet[];
 }

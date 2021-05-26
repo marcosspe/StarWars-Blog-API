@@ -54,15 +54,13 @@ var Users = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], Users.prototype, "password");
     __decorate([
-        typeorm_1.OneToOne(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.users; }) // specify inverse side as a second parameter
-        ,
-        __metadata("design:type", Fav_people_1.Fav_people)
-    ], Users.prototype, "fav_people");
-    __decorate([
-        typeorm_1.OneToOne(function () { return Fav_planet_1.Fav_planet; }, function (fav_planet) { return fav_planet.users; }) // specify inverse side as a second parameter
-        ,
-        __metadata("design:type", Fav_planet_1.Fav_planet)
+        typeorm_1.OneToMany(function () { return Fav_planet_1.Fav_planet; }, function (fav_planet) { return fav_planet.users; }),
+        __metadata("design:type", Array)
     ], Users.prototype, "fav_planet");
+    __decorate([
+        typeorm_1.OneToMany(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.users; }),
+        __metadata("design:type", Array)
+    ], Users.prototype, "fav_people");
     Users = __decorate([
         typeorm_1.Entity()
     ], Users);

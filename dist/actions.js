@@ -200,19 +200,22 @@ var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.createPlanet = createPlanet;
 var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token;
+    var userRepo, user, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 if (!req.body.email)
-                    throw new utils_1.Exception("Verifique el email", 400);
+                    throw new utils_1.Exception("Please specify an email on your request body", 400);
                 if (!req.body.password)
-                    throw new utils_1.Exception("Verifique el password", 400);
-                return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).findOne({ where: { email: req.body.email, password: req.body.password } })];
+                    throw new utils_1.Exception("Please specify a password on your request body", 400);
+                return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users)];
             case 1:
+                userRepo = _a.sent();
+                return [4 /*yield*/, userRepo.findOne({ where: { email: req.body.email, password: req.body.password } })];
+            case 2:
                 user = _a.sent();
                 if (!user)
-                    throw new utils_1.Exception("Email o password incorrecto", 401);
+                    throw new utils_1.Exception("Invalid email or password", 401);
                 token = jsonwebtoken_1["default"].sign({ user: user }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
                 return [2 /*return*/, res.json({ user: user, token: token })];
         }

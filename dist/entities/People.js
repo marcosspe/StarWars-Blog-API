@@ -61,8 +61,8 @@ var People = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], People.prototype, "EyeColor");
     __decorate([
-        typeorm_1.ManyToOne(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.people; }),
-        __metadata("design:type", Fav_people_1.Fav_people)
+        typeorm_1.OneToMany(function () { return Fav_people_1.Fav_people; }, function (fav_people) { return fav_people.people; }),
+        __metadata("design:type", Array)
     ], People.prototype, "fav_people");
     People = __decorate([
         typeorm_1.Entity()

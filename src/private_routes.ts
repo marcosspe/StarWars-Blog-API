@@ -14,6 +14,7 @@
 import { Router } from 'express';
 import { safe } from './utils';
 import * as actions from './actions';
+import jwt from 'jsonwebtoken'
 
 // declare a new router to include all the endpoints
 const router = Router();

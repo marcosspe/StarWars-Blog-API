@@ -85,14 +85,15 @@ export const createPlanet = async (req: Request, res:Response): Promise<Response
 	return res.json(results);
 }
 
-export const login = async (req: Request, res: Response): Promise<Response> =>{
+export const login = async (req: Request, res: Response): Promise<Response> => {
 
-    if(!req.body.email) throw new Exception("Verifique el email", 400)
-	if(!req.body.password) throw new Exception("Verifique el password", 400)
+    if (!req.body.email) throw new Exception("Please specify an email on your request body", 400);
+    if (!req.body.password) throw new Exception("Please specify a password on your request body", 400);
 
-	const user = await getRepository(Users).findOne({ where: { email: req.body.email, password: req.body.password }})
-	if(!user) throw new Exception("Email o password incorrecto", 401)
+    const userRepo = await getRepository(Users);
+    const user = await userRepo.findOne({ where: { email: req.body.email, password: req.body.password } });
+    if (!user) throw new Exception("Invalid email or password", 401);
 
-	const token = jwt.sign({ user }, process.env.JWT_KEY as string, { expiresIn: 60 * 60 });
-	return res.json({ user, token });
+    const token = jwt.sign({ user }, process.env.JWT_KEY as string, { expiresIn: 60 * 60 });
+    return res.json({ user, token });
 }

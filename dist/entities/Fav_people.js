@@ -38,14 +38,12 @@ var Fav_people = /** @class */ (function (_super) {
         __metadata("design:type", Number)
     ], Fav_people.prototype, "id");
     __decorate([
-        typeorm_1.OneToOne(function () { return Users_1.Users; }, function (users) { return users.fav_people; }) // specify inverse side as a second parameter
-        ,
-        typeorm_1.JoinColumn(),
+        typeorm_1.ManyToOne(function () { return Users_1.Users; }, function (users) { return users.fav_people; }),
         __metadata("design:type", Users_1.Users)
     ], Fav_people.prototype, "users");
     __decorate([
-        typeorm_1.OneToMany(function () { return People_1.People; }, function (people) { return people.fav_people; }),
-        __metadata("design:type", Array)
+        typeorm_1.ManyToOne(function () { return People_1.People; }, function (people) { return people.fav_people; }),
+        __metadata("design:type", People_1.People)
     ], Fav_people.prototype, "people");
     Fav_people = __decorate([
         typeorm_1.Entity()
