@@ -50,6 +50,16 @@ export const getCharacter = async (req: Request, res: Response): Promise<Respons
         return res.json(people);
 }
 
+export const putPeople = async (req: Request, res: Response): Promise<Response> =>{
+        const character = await getRepository(People).findOne(req.params.id);
+        if(character){
+            getRepository(People).merge(character, req.body); 
+            const results = await getRepository(People).save(character)
+            return res.json(results);
+        }
+        return res.json({msg: "El personaje no existe"})
+}
+
 export const getPlanets = async (req: Request, res: Response): Promise<Response> =>{
 		const planets = await getRepository(Planets).find();
 		return res.json(planets);
@@ -58,6 +68,16 @@ export const getPlanets = async (req: Request, res: Response): Promise<Response>
 export const getPlanet = async (req: Request, res: Response): Promise<Response> =>{
         const planets = await getRepository(Planets).findOne(req.params.id);
         return res.json(planets);
+}
+
+export const putPlanets = async (req: Request, res: Response): Promise<Response> =>{
+        const planet = await getRepository(Planets).findOne(req.params.id);
+        if(planet){
+            getRepository(Planets).merge(planet, req.body); 
+            const results = await getRepository(Planets).save(planet)
+            return res.json(results);
+        }
+        return res.json({msg: "El planeta no existe"})
 }
 
 export const createCharacter = async (req: Request, res:Response): Promise<Response> =>{
@@ -122,29 +142,25 @@ export const getFavoritos = async (req: Request, res: Response): Promise<Respons
 }
 
 export const addFavPlanet = async (req: Request, res: Response): Promise<Response> =>{
-    const userID = (req.user as ObjectLiteral).user.id; 
-    /* Verificamos si el planeta existe */
+    const userID = (req.user as ObjectLiteral).user.id;
     const planet = await getRepository(Planets).findOne(req.params.id);
     if(!planet) throw new Exception("El planeta no existe")
-    /* Le asignamos los valores a los FK */
     let newFavorito = new Fav_planet();
     newFavorito.users = userID;
     newFavorito.planets = planet;
   
-    const results = await getRepository(Fav_planet).save(newFavorito);   //Grabo el fav
+    const results = await getRepository(Fav_planet).save(newFavorito);
     return res.json(results);
 } 
 
 export const addFavPeople = async (req: Request, res: Response): Promise<Response> =>{
-    /* Verificamos si el personaje existe */
     const userID = (req.user as ObjectLiteral).user;
     const character = await getRepository(People).findOne(req.params.id);
     if(!character) throw new Exception("El planeta que selecciono no existe, cambie su id")
-    /* Le asignamos los valores a los FK */
     let newFavorito = new Fav_people();
     newFavorito.users = userID;
     newFavorito.people = character;
-    const results = await getRepository(Fav_people).save(newFavorito);    //Grabo el fav
+    const results = await getRepository(Fav_people).save(newFavorito);   
     return res.json(results);
 } 
 

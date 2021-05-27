@@ -23,5 +23,7 @@ router.get('/planets/:id', safe(actions.getPlanet));
 router.post('/people', safe(actions.createCharacter));
 router.post('/planets', safe(actions.createPlanet));
 router.post('/login', safe(actions.login));
+router.put('/people/:id', safe(actions.putPeople))
+router.put('/planets/:id', safe(actions.putPlanets))
 
 export default router;
