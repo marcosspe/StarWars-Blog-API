@@ -24,6 +24,9 @@ export class People extends BaseEntity{
     @Column()
     EyeColor: string
 
+    @Column()
+    Img: string
+
     
   @OneToMany(() => Fav_people, fav_people => fav_people.people)
     fav_people: Fav_people;

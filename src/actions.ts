@@ -89,6 +89,7 @@ export const createCharacter = async (req: Request, res:Response): Promise<Respo
     if(!req.body.Height) throw new Exception("Please provide Height")
     if(!req.body.SkinColor) throw new Exception("Please provide SkinColor")
     if(!req.body.EyeColor) throw new Exception("Please provide EyeColor")
+    if(!req.body.Img) throw new Exception("Please provide Img")
     
     const Character = await getRepository(People).findOne({ where: {Name: req.body.Name }})
     if(Character) throw new Exception("Este personaje ya existe")

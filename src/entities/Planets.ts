@@ -24,6 +24,9 @@ export class Planets extends BaseEntity{
     @Column()
     Diameter: number
 
+    @Column()
+    Img: string
+
     @OneToMany(() => Fav_planet, fav_planet => fav_planet.planets)
     fav_planet: Fav_planet;
 }

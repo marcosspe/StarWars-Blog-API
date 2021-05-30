@@ -61,6 +61,10 @@ var Planets = /** @class */ (function (_super) {
         __metadata("design:type", Number)
     ], Planets.prototype, "Diameter");
     __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Planets.prototype, "Img");
+    __decorate([
         typeorm_1.OneToMany(function () { return Fav_planet_1.Fav_planet; }, function (fav_planet) { return fav_planet.planets; }),
         __metadata("design:type", Fav_planet_1.Fav_planet)
     ], Planets.prototype, "fav_planet");

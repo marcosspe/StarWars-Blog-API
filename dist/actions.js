@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.deleteFavPeople = exports.deleteFavPlanet = exports.addFavPeople = exports.addFavPlanet = exports.getFavoritos = exports.login = exports.createPlanet = exports.createCharacter = exports.getPlanet = exports.getPlanets = exports.getCharacter = exports.getPeople = exports.getUser = exports.getUsers = exports.createUser = void 0;
+exports.deleteFavPeople = exports.deleteFavPlanet = exports.addFavPeople = exports.addFavPlanet = exports.getFavoritos = exports.login = exports.createPlanet = exports.createCharacter = exports.putPlanets = exports.getPlanet = exports.getPlanets = exports.putPeople = exports.getCharacter = exports.getPeople = exports.getUser = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var People_1 = require("./entities/People");
@@ -128,6 +128,24 @@ var getCharacter = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.getCharacter = getCharacter;
+var putPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var character, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).findOne(req.params.id)];
+            case 1:
+                character = _a.sent();
+                if (!character) return [3 /*break*/, 3];
+                typeorm_1.getRepository(People_1.People).merge(character, req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(character)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+            case 3: return [2 /*return*/, res.json({ msg: "El personaje no existe" })];
+        }
+    });
+}); };
+exports.putPeople = putPeople;
 var getPlanets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var planets;
     return __generator(this, function (_a) {
@@ -152,6 +170,24 @@ var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getPlanet = getPlanet;
+var putPlanets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planet, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.id)];
+            case 1:
+                planet = _a.sent();
+                if (!planet) return [3 /*break*/, 3];
+                typeorm_1.getRepository(Planets_1.Planets).merge(planet, req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).save(planet)];
+            case 2:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+            case 3: return [2 /*return*/, res.json({ msg: "El planeta no existe" })];
+        }
+    });
+}); };
+exports.putPlanets = putPlanets;
 var createCharacter = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var Character, newCharacter, results;
     return __generator(this, function (_a) {
@@ -170,6 +206,8 @@ var createCharacter = function (req, res) { return __awaiter(void 0, void 0, voi
                     throw new utils_1.Exception("Please provide SkinColor");
                 if (!req.body.EyeColor)
                     throw new utils_1.Exception("Please provide EyeColor");
+                if (!req.body.Img)
+                    throw new utils_1.Exception("Please provide Img");
                 return [4 /*yield*/, typeorm_1.getRepository(People_1.People).findOne({ where: { Name: req.body.Name } })];
             case 1:
                 Character = _a.sent();
